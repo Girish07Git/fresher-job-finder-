@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <title>Job Openings</title>
+    <style>
+        /* Video Background */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Content Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            scroll-behavior: smooth; /* Smooth Scrolling */
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 255, 0, 0.8);
+            transition: 0.3s ease-in-out;
+        }
+
+        .navbar:hover {
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.7);
+        }
+
+        /* Hero Section */
+        .hero h1 {
+            font-size: 42px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 255, 0, 0.8);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 10px rgba(0, 255, 0, 0.6); }
+            to { text-shadow: 4px 4px 20px rgba(0, 255, 0, 1); }
+        }
+
+        /* Apply Now Button */
+        .apply-btn {
+            padding: 12px 30px;
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.8);
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .apply-btn:hover {
+            background-color: #ffca28;
+            box-shadow: 0px 0px 20px rgba(255, 215, 0, 1);
+            transform: scale(1.1);
+        }
+
+        /* Smooth Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            50% { transform: translateX(3px); }
+            75% { transform: translateX(-3px); }
+        }
+
+        .apply-btn:hover {
+            animation: shake 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Video Background -->
+    <div class="video-container">
+        <video autoplay loop muted>
+            <source src="P:\Girish Micro\large (1).mp4"stype="video/mp4"> 
+      
+
+        </video>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">Freshers Job Finder</div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Find Your Dream Job Today!</h1>
+    </div>
+
+    <!-- Apply Button -->
+    <div>
+        <a href="signup.html" class="apply-btn">Apply Now</a>
+    </div>
+
+</body>
+</html>

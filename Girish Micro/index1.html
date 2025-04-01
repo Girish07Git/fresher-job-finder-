@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+    <title>Freshers Job Finder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d47a1, #2196f3);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00ffff, #00ffaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ffff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ffffff, #a5d6ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* Search and Filter */
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-box input, .search-box select {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            padding: 12px 20px;
+            background: #ffeb3b;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #ffd600;
+            transform: translateY(-2px);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Jobs Container */
+        .jobs-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 25px;
+        }
+
+        .job-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .job-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: white;
+            padding: 5px;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .company-name {
+            font-size: 1rem;
+            color: #ffeb3b;
+            margin-bottom: 5px;
+        }
+
+        .job-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .job-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .salary {
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        .apply-btn {
+            padding: 10px 20px;
+            background: #ffeb3b;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .apply-btn:hover {
+            background: #ffd600;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Featured Jobs */
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4081;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .jobs-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for job cards */
+        .job-card {
+            animation: slideUp 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Delay animations for each card */
+        .job-card:nth-child(1) { animation-delay: 0.1s; }
+        .job-card:nth-child(2) { animation-delay: 0.2s; }
+        .job-card:nth-child(3) { animation-delay: 0.3s; }
+        .job-card:nth-child(4) { animation-delay: 0.4s; }
+        .job-card:nth-child(5) { animation-delay: 0.5s; }
+        .job-card:nth-child(6) { animation-delay: 0.6s; }
+        .job-card:nth-child(7) { animation-delay: 0.7s; }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            font-size: 1.2rem;
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Freshers Job Finder</div>
+        <div class="nav-links">
+            <a href="index1.html"><i class="fas fa-home"></i> Home</a>
+            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a>
+            <a href="apply.html"><i class="fas fa-briefcase"></i> Post a Job</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Find Your Dream Job Today</h1>
+        <p>Discover the best opportunities for freshers across top companies in India</p>
+        
+        <!-- Search and Filter -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Job title, keywords, or company">
+                <input type="text" id="locationInput" placeholder="Location">
+                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All Jobs</button>
+                <button class="filter-btn" data-filter="it">IT/Software</button>
+                <button class="filter-btn" data-filter="engineering">Engineering</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+                <button class="filter-btn" data-filter="marketing">Marketing</button>
+                <button class="filter-btn" data-filter="finance">Finance</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs Container -->
+    <div class="jobs-container" id="jobsContainer">
+        <!-- No results message -->
+        <div class="no-results" id="noResults">
+            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i>
+            <h3>No jobs found matching your search</h3>
+            <p>Try adjusting your search or filter criteria</p>
+        </div>
+
+        <!-- Featured Job -->
+        <div class="job-card" data-title="software developer" data-company="groots" data-location="pune" data-category="it">
+            <span class="featured-badge">Featured</span>
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">Software Developer</h2>
+                    <div class="company-name">Groots Software Technologies Pvt Ltd</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-2 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> BE/BTech</span>
+            </div>
+            <p class="job-description">
+                We're looking for a passionate Software Developer to join our team. You'll work on cutting-edge technologies and help build innovative solutions for our clients.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹3.5 - 5.5 LPA</span>
+                <a href="op.html" class="apply-btn" target="_blank"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+
+        <!-- Job Card 2 -->
+        <div class="job-card" data-title="web developer" data-company="opstech" data-location="pimpri" data-category="it">
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">Web Developer</h2>
+                    <div class="company-name">Opstech Solution</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Pimpri, Pune</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-1 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> Any Graduate</span>
+            </div>
+            <p class="job-description">
+                Join our team as a Web Developer and work on exciting projects. Knowledge of HTML, CSS, JavaScript and any framework is required.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹2.5 - 4 LPA</span>
+                <a href="https://www.naukri.com/opstech-solution-jobs" class="apply-btn" target="_blank"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+
+        <!-- Job Card 3 -->
+        <div class="job-card" data-title="data analyst" data-company="chestates" data-location="pune" data-category="it">
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">Data Analyst</h2>
+                    <div class="company-name">Chestates - A Data Science Company</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-2 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> BSc/MSc Statistics</span>
+            </div>
+            <p class="job-description">
+                Looking for freshers with strong analytical skills. Training will be provided in data analysis tools and techniques.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹3 - 4.5 LPA</span>
+                <a href="https://chistats.ai/" class="apply-btn" target="_blank"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+
+        <!-- Job Card 4 -->
+        <div class="job-card" data-title="ui ux designer" data-company="creative minds" data-location="bangalore" data-category="design">
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">UI/UX Designer</h2>
+                    <div class="company-name">Creative Minds Pvt Ltd</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Bangalore, Karnataka</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-1 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> Any Design Degree</span>
+            </div>
+            <p class="job-description">
+                We're looking for creative UI/UX designers with a portfolio showcasing their design skills. Freshers with good design sense are welcome.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹3 - 4 LPA</span>
+                <a href="#" class="apply-btn"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+
+        <!-- Job Card 5 -->
+        <div class="job-card" data-title="cyber security analyst" data-company="securetech" data-location="hyderabad" data-category="it">
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">Cyber Security Analyst</h2>
+                    <div class="company-name">SecureTech Pvt Ltd</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Hyderabad, Telangana</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-1 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> BCA/BSc IT</span>
+            </div>
+            <p class="job-description">
+                Entry-level position for cyber security enthusiasts. Certifications like CEH will be an added advantage.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹3.5 - 5 LPA</span>
+                <a href="#" class="apply-btn"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+
+        <!-- Job Card 6 -->
+        <div class="job-card" data-title="digital marketing executive" data-company="brandboost" data-location="chennai" data-category="marketing">
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">Digital Marketing Executive</h2>
+                    <div class="company-name">BrandBoost Agency</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Chennai, Tamil Nadu</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-1 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> Any Graduate</span>
+            </div>
+            <p class="job-description">
+                Looking for freshers with passion for digital marketing. Training will be provided on SEO, SEM, and social media marketing.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹2.5 - 3.5 LPA</span>
+                <a href="#" class="apply-btn"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+
+        <!-- Job Card 7 -->
+        <div class="job-card" data-title="network engineer" data-company="netlink" data-location="delhi" data-category="engineering">
+            <div class="job-header">
+                <img src="https://via.placeholder.com/60" alt="Company Logo" class="company-logo">
+                <div>
+                    <h2 class="job-title">Network Engineer</h2>
+                    <div class="company-name">NetLink Solutions</div>
+                </div>
+            </div>
+            <div class="job-details">
+                <span class="detail-item"><i class="fas fa-map-marker-alt"></i> Delhi</span>
+                <span class="detail-item"><i class="fas fa-briefcase"></i> 0-2 years</span>
+                <span class="detail-item"><i class="fas fa-graduation-cap"></i> BE/BTech</span>
+            </div>
+            <p class="job-description">
+                Freshers with CCNA certification preferred. Will be responsible for network maintenance and troubleshooting.
+            </p>
+            <div class="job-footer">
+                <span class="salary">₹3 - 4 LPA</span>
+                <a href="#" class="apply-btn"><i class="fas fa-paper-plane"></i> Apply Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Freshers Job Finder. All Rights Reserved.</p>
+        <div style="margin-top: 15px;">
+            <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-facebook"></i></a>
+            <a href="https://x.com/GirishP45" style="color: white; margin: 0 10px;"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/girish-pardeshi-5a58a8341/" style="color: white; margin: 0 10px;"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/girishhh__07/" style="color: white; margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Working Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const locationInput = document.getElementById('locationInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const jobsContainer = document.getElementById('jobsContainer');
+        const jobCards = document.querySelectorAll('.job-card');
+        const noResults = document.getElementById('noResults');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Search function
+        function searchJobs() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const locationTerm = locationInput.value.toLowerCase();
+            let hasResults = false;
+            let activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+
+            jobCards.forEach(card => {
+                const title = card.dataset.title;
+                const company = card.dataset.company;
+                const location = card.dataset.location;
+                const category = card.dataset.category;
+                
+                const matchesSearch = title.includes(searchTerm) || company.includes(searchTerm);
+                const matchesLocation = location.includes(locationTerm);
+                const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                
+                if (matchesSearch && matchesLocation && matchesFilter) {
+                    card.style.display = 'flex';
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide no results message
+            noResults.style.display = hasResults ? 'none' : 'block';
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', searchJobs);
+        locationInput.addEventListener('input', searchJobs);
+        searchBtn.addEventListener('click', searchJobs);
+
+        // Filter buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                searchJobs(); // Re-run search with new filter
+            });
+        });
+
+        // Initialize search on page load
+        searchJobs();
+    </script>
+</body>
+</html>

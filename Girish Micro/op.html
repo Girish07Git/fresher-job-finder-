@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Job Portal - Find Your Dream Job</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+        }
+
+        /* Header */
+        .header {
+            background: #1a73e8;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 2rem auto;
+            max-width: 1200px;
+            display: flex;
+            gap: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* Job Listings */
+        .job-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .job-title {
+            color: #1a73e8;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-company {
+            color: #5f6368;
+            margin-bottom: 1rem;
+        }
+
+        .apply-btn {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .apply-btn:hover {
+            background: #1558c4;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <h1>JobPortal</h1>
+            <div class="user-menu">
+                <i class="fas fa-user"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="jobInput" class="search-input" placeholder="Job title or keywords">
+        <input type="text" id="locationInput" class="search-input" placeholder="Location">
+        <button class="search-input" style="background: #1a73e8; color: white; cursor: pointer;" onclick="searchJobs()">Search</button>
+    </div>
+
+    <div class="container">
+        <main class="job-list">
+            <!-- Job Card 1 -->
+            <article class="job-card">
+                <h2 class="job-title">Senior Software Engineer</h2>
+                <p class="job-company">Tech Solutions Inc.</p>
+                <p><i class="fas fa-map-marker-alt"></i> Pune</p>
+                <p><i class="fas fa-rupee-sign"></i> 12-18 LPA</p>
+                <p><i class="fas fa-briefcase"></i> 5+ years experience</p>
+                <a href="https://www.ambitionbox.com/reviews/yash-technologies-reviews?utm_campaign=srp_ratings&utm_medium=desktop&utm_source=naukri"             class="apply-btn">Apply Now</a>
+            </article>
+
+            <!-- Job Card 2 -->
+            <article class="job-card">
+                <h2 class="job-title">Data Scientist</h2>
+                <p class="job-company">Analytics Corp</p>
+                <p><i class="fas fa-map-marker-alt"></i> Mumbai</p>
+                <p><i class="fas fa-rupee-sign"></i> 15-25 LPA</p>
+                <p><i class="fas fa-briefcase"></i> 3+ years experience</p>
+                <a href="https://www.ambitionbox.com/reviews/uplers-reviews?utm_campaign=srp_ratings&utm_medium=desktop&utm_source=naukri" class="apply-btn">Apply Now</a>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        function searchJobs() {
+            let jobTitle = document.getElementById("jobInput").value; 
+            let location = document.getElementById("locationInput").value;
+            
+            if (jobTitle || location) {
+                alert("Searching for: " + jobTitle + " in " + location);
+            } else {
+                alert("Please enter a Job Title or Location!");
+            }
+        }
+    </script>
+
+</body>
+</html>

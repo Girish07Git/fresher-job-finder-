@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up - Freshers Job Finder</title>
+    <style>
+        /* Background Styling */
+        body {
+            background: linear-gradient(135deg, #FFD700, #FFA500); /* Gold to Orange Gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Glassmorphism Sign-Up Box */
+        .signup-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            color: #333;
+            width: 380px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input Fields */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Password Strength Meter */
+        .strength-meter {
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .strength-meter::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: #ff4757;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .strength-meter.weak::before {
+            width: 33%;
+            background: #ff4757;
+        }
+
+        .strength-meter.medium::before {
+            width: 66%;
+            background: #ffa502;
+        }
+
+        .strength-meter.strong::before {
+            width: 100%;
+            background: #2ed573;
+        }
+
+        /* Toggle Password Visibility */
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Neon Button Effect */
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #007bff, #00bfff);
+            color: white;
+            padding: 14px;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::after {
+            left: 100%;
+        }
+
+        /* OTP Box Animation */
+        .otp-box {
+            display: none;
+            margin-top: 30px;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .otp-inputs input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            padding: 0;
+        }
+
+        /* Social Login */
+        .social-login {
+            margin-top: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Terms Checkbox */
+        .terms {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .terms input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .signup-box {
+                width: 90%;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="signup-box">
+        <h2>Create Your Account</h2>
+        
+        <!-- Social Login -->
+        <div class="social-login">
+            <p>Sign up with:</p>
+            <div class="social-icons">
+                <div class="social-icon" onclick="socialLogin('google')">
+                    <i class="fab fa-google" style="color: #DB4437;"></i>
+                </div>
+                <div class="social-icon" onclick="socialLogin('facebook')">
+                    <i class="fab fa-facebook-f" style="color: #4267B2;"></i>
+                </div>
+                <div class="social-icon" onclick="socialLogin('linkedin')">
+                    <i class="fab fa-linkedin-in" style="color: #0077B5;"></i>
+                </div>
+            </div>
+        </div>
+
+        <p style="margin: 20px 0; position: relative;">
+            <span style="background: rgba(255, 255, 255, 0.3); padding: 0 10px; position: relative; z-index: 1;">OR</span>
+            <span style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(255, 255, 255, 0.3); z-index: 0;"></span>
+        </p>
+
+        <form id="signupForm" onsubmit="event.preventDefault(); sendOTP();">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Full Name" required>
+            </div>
+            
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            
+            <div class="input-group" style="position: relative;">
+                <input type="password" id="password" placeholder="Password" required oninput="checkPasswordStrength()">
+                <span class="toggle-password" onclick="togglePasswordVisibility()">
+                    <i class="far fa-eye" id="eyeIcon"></i>
+                </span>
+                <div class="strength-meter" id="strengthMeter"></div>
+            </div>
+            
+            <div class="terms">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the <a href="#" style="color: #007bff;">Terms & Conditions</a> and <a href="#" style="color: #007bff;">Privacy Policy</a></label>
+            </div>
+            
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div id="otp-box" class="otp-box">
+            <h3>Enter Verification Code</h3>
+            <p style="margin-bottom: 15px;">We've sent a 4-digit code to your email</p>
+            
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" pattern="\d" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" pattern="\d" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" pattern="\d" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" pattern="\d" oninput="moveToNext(this)">
+            </div>
+            
+            <button onclick="verifyOTP()">Verify & Continue</button>
+            <p style="margin-top: 15px; font-size: 14px;">
+                Didn't receive code? <a href="#" onclick="resendOTP()" style="color: #007bff;">Resend</a>
+            </p>
+        </div>
+
+        <p style="margin-top: 20px;">Already have an account? <a href="login.html" style="color: #007bff; font-weight: 600;">Login</a></p>
+    </div>
+
+    <script>
+        // Password Strength Checker
+        function checkPasswordStrength() {
+            const password = document.getElementById("password").value;
+            const meter = document.getElementById("strengthMeter");
+            
+            // Reset
+            meter.className = 'strength-meter';
+            
+            if (password.length === 0) return;
+            
+            // Check strength
+            let strength = 0;
+            
+            // Length check
+            if (password.length > 7) strength++;
+            
+            // Contains numbers
+            if (/\d/.test(password)) strength++;
+            
+            // Contains special chars
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+            
+            // Contains upper and lower case
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            
+            // Update meter
+            if (strength <= 1) {
+                meter.classList.add('weak');
+            } else if (strength <= 3) {
+                meter.classList.add('medium');
+            } else {
+                meter.classList.add('strong');
+            }
+        }
+
+        // Toggle Password Visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
+            
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+
+        // OTP Functions
+        let otp = '';
+        
+        function sendOTP() {
+            // Validate form first
+            if (!document.getElementById("terms").checked) {
+                alert("Please agree to the Terms & Conditions");
+                return;
+            }
+            
+            // Generate OTP
+            otp = Math.floor(1000 + Math.random() * 9000).toString();
+            alert("Your OTP is: " + otp); // In real app, send to email
+            
+            // Show OTP box
+            document.getElementById("otp-box").style.display = "block";
+            
+            // Scroll to OTP box
+            document.getElementById("otp-box").scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function verifyOTP() {
+            const inputs = document.querySelectorAll('.otp-inputs input');
+            let enteredOTP = '';
+            
+            inputs.forEach(input => {
+                enteredOTP += input.value;
+            });
+            
+            if (enteredOTP === otp) {
+                alert("Sign Up Successful! Redirecting to Login Page...");
+                window.location.href = "index1.html";
+            } else {
+                alert("Incorrect OTP. Please try again.");
+                // Clear inputs
+                inputs.forEach(input => {
+                    input.value = '';
+                });
+                // Focus first input
+                inputs[0].focus();
+            }
+        }
+        
+        function resendOTP() {
+            otp = Math.floor(1000 + Math.random() * 9000).toString();
+            alert("New OTP sent: " + otp); // In real app, send to email
+        }
+        
+        function moveToNext(input) {
+            if (input.value.length === 1) {
+                const next = input.nextElementSibling;
+                if (next) next.focus();
+            } else if (input.value.length === 0) {
+                const prev = input.previousElementSibling;
+                if (prev) prev.focus();
+            }
+            
+            // Only allow numbers
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        // Social Login
+        function socialLogin(provider) {
+            alert(`Signing up with ${provider.charAt(0).toUpperCase() + provider.slice(1)}...`);
+            // In real app, implement OAuth flow here
+        }
+    </script>
+</body>
+</html>
